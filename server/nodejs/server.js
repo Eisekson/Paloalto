@@ -1,14 +1,100 @@
-﻿var express = require('express');
+﻿function con(s) {
+    console.log(s);
+}
 
+var express = require('express');
 var crypto = require('crypto');
 
 var app = express();
 var fs = require('fs');
-var port = 80;
+var port = 8083;
 var encode = "utf-8";
 
+var web_path = '../../web/paloalto2/paloalto2/paloalto2/';
 
-var web_path = '../../web/paloalto/paloalto/';
+
+
+var t;
+(function (t) {
+    var a = (function () {
+        function a() {
+            this.b = 'a';
+        }
+        a.prototype.bb = function (b) {
+            this.b = b;
+        };
+        a.prototype.print = function () {
+            console.log(this.b);
+        };
+        return a;
+    })();
+    t.a = a;
+})(t || (t = {}));
+
+var tt = new t.a();
+var t2 = new t.a();
+t2.bb('b');
+tt.print();
+t2.print();
+
+
+/**ThreatChart Query Data class */
+var QueryData = (function () {
+    function QueryData() {
+        /**開始日期*/
+        this.fromDate = null;
+        /**開始小時*/
+        this.fromHour = null;
+        /**結束日期*/
+        this.toDate = null;
+        /**結束小時*/
+        this.toHour = null;
+        /**APP 0前十大 1前二十大 2前三十大 3前四十大*/
+        this.appIndex = null;
+    }
+    QueryData.prototype.setDate = function () {
+        this.fromDate = (document.getElementById('fromDate')).value.toString().replace(/\//g, '-');
+        this.fromHour = (document.getElementById('fromHour')).value + ":00";
+        this.toDate = (document.getElementById('toDate')).value.toString().replace(/\//g, '-');
+        this.toHour = (document.getElementById('toHour')).value + ":00";
+        this.appIndex = (document.getElementById('app')).selectedIndex;
+    };
+    return QueryData;
+})();
+
+/**y軸 資料*/
+var YAxis = (function () {
+    function YAxis(name, data) {
+        this.name = null;
+        this.data = null;
+        this.name = name;
+        this.data = data;
+    }
+    return YAxis;
+})();
+
+/**x軸 資料*/
+var XAxis = (function () {
+    function XAxis() {
+        this.categories = null;
+        this.categories = [];
+    }
+    return XAxis;
+})();
+
+/**圖表的資料*/
+var ChartData = (function () {
+    function ChartData() {
+        this.yAxis = null;
+        this.xAxis = null;
+        this.xAxis = new XAxis();
+    }
+    return ChartData;
+})();
+
+
+
+
 
 
 
@@ -45,8 +131,6 @@ function qthr(sql) {
     });
     connection.end();
 }
-
-
 
 
 
@@ -92,31 +176,32 @@ app.post('/query/traffic', function (req, res) {
             //throw err;
             res.jsonp('error');
         }
-        try{
+        try {
             for (var i = 0; i < result.length; i++) {
-                if(result[i][tra] == null)
+                if (result[i][tra] == null)
                     result[i][tra] = 0;
             }
+            //顯示資料表查詢結果
+            //console.log(result);
 
-        
             var x_arr = new Array();
             var appname = result[0]['app'];
-        
+
             var sendData = new Object();
             for (var i = 0; i < result.length; i++) {
                 if (appname != result[i]['app']) {
                     break;
-                }            
+                }
                 x_arr.push(ti(result[i]['time_generated'].toString()));
             }
-            
+
             sendData['x'] = x_arr;
 
             var y = new Array();
-        
+
             appname = result[0]['app'];
 
-        
+
             var array = new Array();
             var te = new Object();
             te['name'] = appname;
@@ -124,7 +209,7 @@ app.post('/query/traffic', function (req, res) {
 
             for (var i = 0; i < result.length; i++) {
                 //console.log(result[i]['app']);
-                if (appname != result[i]['app']) {      
+                if (appname != result[i]['app']) {
                     te['name'] = appname;
                     te['data'] = array;
                     //console.log(appname);
@@ -144,7 +229,7 @@ app.post('/query/traffic', function (req, res) {
             //console.log(result);
             console.log('sendData traffic app ');
             //console.log(JSON.stringify(sendData));
-            
+
             res.jsonp(sendData);
         } catch (err) {
             console.log(new Date().toString());
@@ -170,10 +255,10 @@ app.post('/query/apptoip', function (req, res) {
     console.log('/query/apptoip');
     console.log(req.body.data);
     var sD = JSON.parse(req.body.data);
-    
+
     console.log(sD['time'] + "" + sD['app'] + "" + sD['traffic']);
     var time = sD['time'];
-    var sTime = time+':00:00';
+    var sTime = time + ':00:00';
     var eTime = time + ':59:59';
     var app = sD['app'];
     var traffic = sD['traffic'];
@@ -191,15 +276,15 @@ app.post('/query/apptoip', function (req, res) {
         sql = "select app,src_ip ,sum(bytes)  FROM traffic where app='" + app + "' &&        time_generated between str_to_date(('" + sTime + "')        ,'%Y-%m-%d %T') AND str_to_date( ('" + eTime + "')        ,'%Y-%m-%d %T')        group by app,src_ip order by sum(bytes) desc limit 0,30";
 
     }
-    //session
+        //session
     else {
         x_name = 'src_ip';
         y_name = 'app';
         y_data_name = 'session';
-        sql = "select app,src_ip ,count(app) as 'session'  FROM traffic where app='"+app+"' &&        time_generated between str_to_date(('"+sTime+"')        ,'%Y-%m-%d %T') AND str_to_date( ('"+eTime+"')        ,'%Y-%m-%d %T')        group by app,src_ip  order by count(app) desc limit 0,30";
+        sql = "select app,src_ip ,count(app) as 'session'  FROM traffic where app='" + app + "' &&        time_generated between str_to_date(('" + sTime + "')        ,'%Y-%m-%d %T') AND str_to_date( ('" + eTime + "')        ,'%Y-%m-%d %T')        group by app,src_ip  order by count(app) desc limit 0,30";
     }
     console.log(sql);
-    
+
 
 
 
@@ -233,14 +318,14 @@ app.post('/query/apptoip', function (req, res) {
             console.log('appname');
             console.log(appname);
             var sendData = new Object();
-            
-            
+
+
             for (var i = 0; i < result.length; i++) {
                 console.log(result[i][y_name]);
                 if (appname != result[i][y_name]) {
                     break;
                 }
-                x_arr.push(result[i][x_name]);                
+                x_arr.push(result[i][x_name]);
             }
             console.log(JSON.stringify(x_arr));
             sendData['x'] = x_arr;
@@ -272,7 +357,7 @@ app.post('/query/apptoip', function (req, res) {
             te['name'] = appname;
             te['data'] = array;
             y.push(te);
-            sendData['y'] = y;            
+            sendData['y'] = y;
             sendData['traffic'] = sD['traffic'];
             sendData['app'] = sD['app'];
             sendData['x_name'] = x_name;
@@ -304,6 +389,285 @@ app.post('/query/apptoip', function (req, res) {
 });
 
 
+
+var queryData;
+
+
+
+
+
+/**當整點到的時候會呼叫所有的function*/
+function onTheHour() {
+    var fun = [];
+    //插入threat Data
+    fun.push(insertThreatData);
+    //插入App Data
+    fun.push(insertAppData);
+    //插入Threat Data
+    fun.push(insertTrafficAppData);
+
+    for (var i = 0; i < fun.length; i++) {
+        fun[i]();
+        setInterval(fun[i], 60 * 60 * 1000);
+    }
+
+}
+
+
+/**在整點的時候執行onTheHour，亦即整點時執行所有我要執行的東西*/
+function findOnTheHour() {
+    var d = new Date();
+    var m = d.getMinutes();
+    var time = (60 - m) * 1000 * 60;
+    setTimeout(onTheHour, time);
+    onTheHour();
+
+    //if (m >= 0 && m <= 1 || m>=59&&m<=60) {
+    //    onTheHour();
+    //}
+}
+
+/**插入Threat的資料*/
+function insertThreatData() {
+
+    //var st = '2013-06-15 10:00:00';
+    //var et ='2013-06-15 11:00:00';
+
+    var st = getCurrentStartTime();
+    var et = getCurrentEndTime();
+    var sql = "INSERT INTO paloalto.threat_hour_data (count, time_generated ,session,subtype,app,severity) SELECT * FROM(select null,str_to_date('" + st + "','%Y-%m-%d %T') as time_generated,count(*),subtype, app,severity from threat where (threat.time_generated between  str_to_date('" + st + "','%Y-%m-%d %T') AND str_to_date('" + et + "','%Y-%m-%d %T')) group by  app,severity,subtype) AS tb";
+    query(sql);
+
+
+
+}
+
+
+testQuery();
+
+function testQuery() {
+    var connection = mysql.createConnection({
+        host: '120.110.114.25',
+        user: 'Paloalto',
+        password: 'password',
+        database: 'paloalto'
+    });
+    connection.connect();
+
+
+    //st   et
+    var sql = "SELECT app,count(app) as appCount FROM `threat_hour_data` WHERE time_generated between '2013-08-15 00:00:00' and '2013-08-23 00:00:00' group by app order by appCount desc limit 10";
+    connection.query(sql, function (err, rows) {
+        var appp = rows[0]['app'];
+        console.log(appp);
+        var sql2 = "SELECT * FROM threat_hour_data WHERE app = 'web-browsing' limit 10";
+
+        connection.query(sql2, function (err2, rows2) {
+            console.log('testQuery');
+            console.log(rows2);
+        });
+        
+
+    });
+    connection.end();
+}
+
+
+
+
+//Threat Query1
+app.post('/query/threatQuery1', function (req, res) {
+    queryData = JSON.parse(req.body.data);
+    con(queryData);
+
+
+    var st = queryData.fromDate + ' ' + queryData.fromHour;
+    var et = queryData.toDate + ' ' + queryData.toHour;
+
+
+    st = transDateMDYToYMD(st);
+    et = transDateMDYToYMD(et);
+
+
+    console.log(st);
+    console.log(et);
+
+    var xx = new XAxis();
+    var y = new YAxis();
+    var xA = [];
+    var yA = [];
+
+
+    var connection = mysql.createConnection({
+        host: '120.110.114.25',
+        user: 'Paloalto',
+        password: 'password',
+        database: 'paloalto'
+    });
+    connection.connect();
+
+
+    //st   et
+    var sql = "SELECT time_generated,subtype,count('subtype') as countSutbype FROM threat_hour_data WHERE time_generated between '"+st+"' and '"+et+"' group by time_generated,subtype";
+    connection.query(sql, function (err, rows) {
+        if (err) {
+            res.jsonp('error');
+        }
+        else {
+            var time_generated = '';
+            var map = {};
+            var count = 0;
+            var subtype = {};
+
+            time_generated = rows[0]['time_generated'].toString();
+            for (var i = 0; i < rows.length; i++) {
+                subtype[rows[i]['subtype']] = true;
+                if (rows[i]['time_generated'].toString() == time_generated.toString()) {
+                    //console.log(rows[i]['time_generated']);
+                } else {
+                    count++;
+                    xx.categories.push(rows[i]['time_generated']);
+                    time_generated = rows[i]['time_generated'];
+                }
+            }
+            //[0,0,0,0,0,0,0,0]
+            var array = [];
+            for (var i = 0; i < count; i++) {
+                array.push(0);
+            }
+            //初始化每一個subtype的data陣列
+            for (var x in subtype) {
+                map[x] = array.concat();
+            }
+            var count = 0;
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i]['time_generated'].toString() == time_generated.toString()) {
+                } else {
+                    count++;
+                    time_generated = rows[i]['time_generated'];
+                }
+                console.log(rows[i]['countSutbype']);
+                map[rows[i]['subtype']][count] = rows[i]['countSutbype'];
+            }
+            //{url:[0,1],file:[1,2]}  => [{name:url,data:[0,1]},{name:file,data:[1,2]}]
+            for (var m in map) {
+                yA.push({ name: m, data: map[m] });
+            }
+
+            var sendData = {};
+            sendData['x'] = JSON.stringify(xx);
+            sendData['y'] = JSON.stringify(yA);
+            console.log(sendData);
+
+
+            res.jsonp(sendData);
+        }
+    });
+    connection.end();
+});
+
+//Threat Query2
+app.post('/query/threatQuery2', function (req, res) {
+
+    queryData = JSON.parse(req.body.data);
+    con(queryData);
+
+
+    var st = queryData.fromDate + ' ' + queryData.fromHour;
+    var et = queryData.toDate + ' ' + queryData.toHour;
+
+
+    st = transDateMDYToYMD(st);
+    et = transDateMDYToYMD(et);
+
+
+    console.log(st);
+    console.log(et);
+    
+    var sql = "SELECT time_generated ,app , count(app) as AppCount FROM threat_hour_data WHERE time_generated between '"+st+"' and '"+et+"' group by app order by time_generated,AppCount desc";
+    var connection = mysql.createConnection({
+        host: '120.110.114.25',
+        user: 'Paloalto',
+        password: 'password',
+        database: 'paloalto'
+    });
+    connection.connect();
+
+    connection.query(sql, function (err, result) {
+        if (err) {
+            console.log(new Date().toString());
+            console.log(sql);
+            throw err;
+        }
+        var sendData = getQuery2Data(result);
+        res.jsonp(sendData);
+
+    });
+    connection.end();
+
+    
+
+});
+
+
+////Threat Query3
+app.post('/query/threatQuery3', function (req, res) {
+
+
+    queryData = JSON.parse(req.body.data);
+    con(queryData);
+
+    //取
+    var sql = "select app,count(*),severity from threat_hour_data where (threat_hour_data.time_generated between  str_to_date('" + queryData.fromDate + " " + queryData.fromHour + "','%Y-%m-%d %T') AND str_to_date('" + queryData.toDate + " " + queryData.toHour + "','%Y-%m-%d %T')) group by  app,severity order by count(*) desc limit 0 ,10";
+
+    console.log(sql);
+    var connection = mysql.createConnection({
+        host: '120.110.114.25',
+        user: 'Paloalto',
+        password: 'password',
+        database: 'paloalto'
+    });
+    connection.connect();
+
+    connection.query(sql, function (err, result) {
+        if (err) {
+            console.log(new Date().toString());
+            console.log(sql);
+
+            throw err;
+        }
+        console.log(result);
+        //parse X   Y
+
+        var x = new XAxis();
+        var y = new YAxis();
+
+
+
+
+
+
+
+
+
+
+
+        res.jsonp(result);
+        console.log('success');
+
+    });
+    connection.end();
+
+
+
+
+
+});
+
+
+
+
+
 //查詢threat 時間區段Threat
 app.post('/ShowChart/threat/subType', function (req, res) {
     console.log('/ShowChart/threat/subType');
@@ -319,9 +683,9 @@ app.post('/ShowChart/threat/subType', function (req, res) {
     //    tra = 'bytes';
     //}
 
-    var sql = "select count(count) as session from paloalto.threat where (time_generated BETWEEN str_to_date( ( '"+fromTime+"'), '%Y-%m-%d %T' ) AND str_to_date( ('"+toTime+"'), '%Y-%m-%d %T' )) && subtype =" +"'"+st+"'" 
-    
-    
+    var sql = "select count(count) as session from paloalto.threat where (time_generated BETWEEN str_to_date( ( '" + fromTime + "'), '%Y-%m-%d %T' ) AND str_to_date( ('" + toTime + "'), '%Y-%m-%d %T' )) && subtype =" + "'" + st + "'"
+
+
     //sql = "SELECT DISTINCT(app) FROM traffic";
     console.log(sql);
     /*
@@ -344,9 +708,9 @@ app.post('/ShowChart/threat/subType', function (req, res) {
         }
         try {
             console.log(result);
-            
 
-            
+
+
 
 
 
@@ -357,7 +721,7 @@ app.post('/ShowChart/threat/subType', function (req, res) {
             }
 
 
-            
+
             //x軸
             var x_arr = new Array();
             //y軸
@@ -403,7 +767,7 @@ app.post('/ShowChart/threat/subType', function (req, res) {
             y.push(te);
             sendData['y'] = y;
 
-            
+
             /*
             var appname = result[0]['app'];
             
@@ -458,7 +822,7 @@ app.post('/ShowChart/threat/subType', function (req, res) {
 
 //查詢 subtype 
 app.post('/query/threat/subtype', function (req, res) {
-    
+
     var sql = 'select DISTINCT(subtype) from  threat';
     console.log(sql);
     var connection = mysql.createConnection({
@@ -479,7 +843,7 @@ app.post('/query/threat/subtype', function (req, res) {
         console.log(result);
         res.jsonp(result);
         console.log('success');
-        
+
     });
     connection.end();
 
@@ -499,10 +863,9 @@ app.listen(port);
 
 
 //插入每小時的資料
-setInterval(insertAppData, 60 * 60 * 1000);
-setInterval(insertThreatAppData, 60 * 60 * 1000);
-
-
+//setInterval(insertAppData, 60 * 60 * 1000);
+//setInterval(insertThreatAppData, 60 * 60 * 1000);
+findOnTheHour();
 
 //插入app資料，比較慢，但是不會報錯
 function insertAppData() {
@@ -516,8 +879,8 @@ function insertAppData() {
 
 
     pool.getConnection(function (err, connection) {
-
-        connection.query("SELECT DISTINCT(app) FROM traffic", function (err, result) {
+        var sql = "SELECT DISTINCT(app) FROM traffic";
+        connection.query(sql, function (err, result) {
             if (err) {
                 console.log(new Date().toString());
                 console.log(sql);
@@ -567,7 +930,7 @@ function insertAppData() {
 
 
 //插入Threat的app資料，比較慢，但是不會報錯
-function insertThreatAppData() {
+function insertTrafficAppData() {
 
     var pool = mysql.createPool({
         host: '120.110.114.25',
@@ -921,11 +1284,21 @@ function QueryTrafficOfApp(sql) {
 
 //-------------------------------------------------------------------------------------
 //-----------------------------------------function------------------------------------
+
+//轉換時間 07-20-2013 00:00:00 成 2013-07-20 00:00:00
+function transDateMDYToYMD(time) {
+    var d = new Date(time);
+    var ti = d.toJSON();
+    ti = ti.substring(0, 19);
+    ti = ti.replace(/T/g, ' ');
+    return ti;
+}
+
 //取得結束時間  格式為 2013-05-05 11:00:00
 function getCurrentEndTime() {
     var st = "";
     var d = new Date();
-    d.setHours(d.getHours() + 1+8, 0, 0);
+    d.setHours(d.getHours() + 1 + 8, 0, 0);
     st = d.toJSON();
     st = st.substring(0, 19);
     st = st.replace(/T/g, ' ');
@@ -935,7 +1308,7 @@ function getCurrentEndTime() {
 function getCurrentStartTime() {
     var st = "";
     var d = new Date();
-    d.setHours(d.getHours() +8, 0, 0);
+    d.setHours(d.getHours() + 8, 0, 0);
     d.setMinutes(0, 0);
     st = d.toJSON();
     st = st.substring(0, 19);
@@ -955,12 +1328,26 @@ function getMyTime(mm, dd, hh) {
     st = st.replace(/T/g, ' ');
     return st;
 }
+/**取得指定的時間 year month day hour*/
+function getMyTime(yyyy, mm, dd, hh) {
+    mm -= 1;
+    hh += 8;
+    var st = "";
+    var d = new Date();
+    d.setYear(yyyy);
+    d.setMonth(mm, dd);
+    d.setHours(hh, 0, 0);
+    st = d.toJSON();
+    st = st.substring(0, 19);
+    st = st.replace(/T/g, ' ');
+    return st;
+}
 //將資料寫入檔案  將data字串，寫入檔名為fileName的檔案中，如果沒有檔案它會自行建立。
 function writeFile(fileName, data) {
     fs.appendFile(fileName, data, function (err) {
         if (err)
             console.log(new Date().toString());
-            console.log(err);
+        console.log(err);
 
     });
 
@@ -977,12 +1364,163 @@ function ti(st) {
 
 
 
+/**回傳下一小時的 年 月 日 時
+* @param t 2013/05/05 10:00:00
+*/
+function getNextHour(t) {
+    var d = new Date(t.replace('-', '/'));
+    d.setHours(d.getHours() + 1 + 8);
+    alert(d.toString());
+    alert(d.toJSON());
+    var s = d.toJSON();
+    //s.replace('/', '-');
+    s = s.replace('T', ' ');
+    s = s.substr(0, 19);
+    return t;
+}
+
+
+//--------function-----------------------
+/* 
+* 获得时间差,时间格式为 年-月-日 小时:分钟:秒 或者 年/月/日 小时：分钟：秒 
+* 或者可以 10-12-2010
+* 其中，年月日为全格式，例如 ： 2010-10-12 01:00:00 
+* 2010-10-12 01:00:00
+* 2010-9-12 01:00:00
+* 返回精度为：秒，分，小时，天 
+*/
+function GetDateDiff(startTime, endTime, diffType) {
+    //将xxxx-xx-xx的时间格式，转换为 xxxx/xx/xx的格式 
+    startTime = startTime.replace(/\-/g, "/");
+    endTime = endTime.replace(/\-/g, "/");
+    //将计算间隔类性字符转换为小写 
+    diffType = diffType.toLowerCase();
+    var sTime = new Date(startTime); //开始时间 
+    var eTime = new Date(endTime); //结束时间 
+    //作为除数的数字 
+    var divNum = 1;
+    switch (diffType) {
+        case "second":
+            divNum = 1000;
+            break;
+        case "minute":
+            divNum = 1000 * 60;
+            break;
+        case "hour":
+            divNum = 1000 * 3600;
+            break;
+        case "day":
+            divNum = 1000 * 3600 * 24;
+            break;
+        default:
+            break;
+    }
+
+    return ((eTime.getTime() - sTime.getTime()) / divNum);
+}
+
+/**把每一小時的時間轉成x軸 st 開始時間  總共有幾小時*/
+function getAxisEachHour(st,len) {
+    var axis = [];
+    for (var i = 0; i < len; i++) {
+        axis.push(getNextHour(st));
+    }
+    return axis;
+}
 
 
 
+function getQuery2Data(da) {
+
+    var q2xAxis = [];
+    var q2yAxis = [];
 
 
+    function query2Data(app, count) {
+        this.app = app;
+        this.count = count;
+    }
 
+
+    var q2AppName = {};
+
+    var a = {};
+    //var debug = document.getElementById('debug');
+    var tigen = '';
+    //計算有多少種時間，以便於給y軸存資料
+    var count = 0;
+    for (var i = 0; i < da.length; i++) {
+        q2AppName[da[i].app.toString()] = true;
+        var dat = new Date(da[i].time_generated.toString()).toJSON();
+        if (dat != tigen.toString()) {
+            tigen = dat.toString();
+            a[tigen.toString()] = [];
+            a[tigen.toString()].push(new query2Data(da[i].app.toString(), da[i].AppCount));
+            count++;
+        } else {
+            a[tigen.toString()].push(new query2Data(da[i].app.toString(), da[i].AppCount));
+        }
+    }
+
+    var q2app = {};
+    var tarr = [];
+    for (var i = 0; i < count; i++) {
+        tarr.push(0);
+    }
+    for (var q2an in q2AppName) {
+        q2app[q2an] = tarr.concat();
+    }
+    //排序+找前十大APP
+    for (var aa in a) {
+        q2xAxis.push(aa.substr(11,2));
+        a[aa].sort(function (b, c) { return c['count'] - b['count'] });
+        var maxlength = 10;
+        if (a[aa].length > maxlength) {
+            var killLength = a[aa].length - maxlength;
+            for (var i = 0; i < killLength; i++) {
+                a[aa].pop();
+            }
+        }
+
+        // console.log(aa + JSON.stringify(a[aa]));
+        // console.log('length' + a[aa].length);
+
+
+        //debug.textContent += aa + JSON.stringify(a[aa]) + '\n\n';
+        //debug.textContent += 'length' + a[aa].length + '\n\n';
+    }
+    var inde = 0;
+    for (var aa in a) {
+
+        var q2arr = a[aa];
+        for (var i = 0; i < q2arr.length; i++) {
+            q2app[q2arr[i].app.toString()][inde] = q2arr[i].count;
+        }
+        inde++;
+    }
+
+    //轉換成y軸 name data
+    for (var q2appp in q2app) {
+        q2yAxis.push({ name: q2appp, data: q2app[q2appp] });
+
+    }
+
+    //debug.textContent += '\n\n\n\n';
+    // console.log(JSON.stringify(q2yAxis));
+
+    for (var x in q2xAxis) {
+        // console.log(q2xAxis[x] + '\n');
+    }
+
+    var sendData = {};
+    sendData['x'] = JSON.stringify(q2xAxis);
+    sendData['y'] = JSON.stringify(q2yAxis);
+    //fs.writeFileSync('aa.txt',JSON.stringify(sendData));
+    return sendData;
+
+    //fs.writeFileSync('aa.txt',str);
+
+}
 
 
 
