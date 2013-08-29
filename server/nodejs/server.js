@@ -614,53 +614,66 @@ app.post('/query/threatQuery2', function (req, res) {
 app.post('/query/threatQuery3', function (req, res) {
 
 
-    queryData = JSON.parse(req.body.data);
-    con(queryData);
+	queryData = JSON.parse(req.body.data);
+	con(queryData);
+	
+	
+	var st = queryData.fromDate + ' ' + queryData.fromHour;
+	var et = queryData.toDate + ' ' + queryData.toHour;
+	
+	
+	st = transDateMDYToYMD(st);
+	et = transDateMDYToYMD(et);
+	console.log(st);
+	console.log(et);
+	var pool = mysql.createPool({
+        	host: '120.110.114.25',
+        	user: 'Paloalto',
+        	password: 'password',
+        	database: 'paloalto'
+    	});
+	pool.getConnection(function (err,connection){
+		var sql = "SELECT app,count(app) as appCount FROM `threat_hour_data` WHERE time_generated between '"+st+"' and '"+et+"' group by app order by appCount desc limit 10";
+		connection.query(sql,function(err,result){
+			if(err){
+				console.log('err');
+				console.log(err);
+			}
+			console.log(result);
+			var countconnection2 = 0;
 
-    //取
-    var sql = "select app,count(*),severity from threat_hour_data where (threat_hour_data.time_generated between  str_to_date('" + queryData.fromDate + " " + queryData.fromHour + "','%Y-%m-%d %T') AND str_to_date('" + queryData.toDate + " " + queryData.toHour + "','%Y-%m-%d %T')) group by  app,severity order by count(*) desc limit 0 ,10";
+			var saveData = new Array();
+			for(var i=0;i<result.length;i++){
+			var sql2 = "SELECT app,subtype,count(app and subtype) as appSubtypeCount FROM `threat_hour_data` WHERE time_generated between '"+st+"' and '"+et+"' and app = '"+result[i]['app']+"' group by app, subtype order by app desc";
 
-    console.log(sql);
-    var connection = mysql.createConnection({
-        host: '120.110.114.25',
-        user: 'Paloalto',
-        password: 'password',
-        database: 'paloalto'
-    });
-    connection.connect();
+			console.log(sql2);
+			if(sql2!=""){
+				connection.query(sql2,function(err2,result2){
+				if(err2){
+					console.log('err2');
+					console.log(err2);
+				}
+				saveData.push(result2);
+				//console.log(result);
+				console.log(result2);
+				countconnection2++;
 
-    connection.query(sql, function (err, result) {
-        if (err) {
-            console.log(new Date().toString());
-            console.log(sql);
-
-            throw err;
-        }
-        console.log(result);
-        //parse X   Y
-
-        var x = new XAxis();
-        var y = new YAxis();
-
-
-
-
-
-
-
-
-
-
-
-        res.jsonp(result);
-        console.log('success');
-
-    });
-    connection.end();
-
-
-
-
+                        	console.log('countconnection'+countconnection2);
+				if(countconnection2 == 10){
+					var sd = {};
+					sd ['x'] = result.concat();
+					sd ['y'] = saveData;
+					console.log(JSON.stringify(sd));
+					var sendData = getThreatQuery3Data(sd);
+					res.jsonp(sendData);
+				}
+				});
+			connection.end();
+			}
+			}
+		});
+		connection.end();
+	});
 
 });
 
@@ -1430,7 +1443,8 @@ function getAxisEachHour(st,len) {
 
 
 
-function getQuery2Data(da) {
+
+function getThreatQuery2Data(da) {
 
     var q2xAxis = [];
     var q2yAxis = [];
@@ -1521,6 +1535,56 @@ function getQuery2Data(da) {
     //fs.writeFileSync('aa.txt',str);
 
 }
+
+function getThreatQuery3Data(data){
+	var x = [];
+	var y = [];
+
+	var sendData = {};
+	var dx = data['x'];
+	//console.log(data);
+	var dataLength = dx.length;
+	/** parse X Data*/
+	for(var i=0;i<dx.length;i++){
+		x.push(dx[i]['app']);
+	}
+	console.log('xxxx');
+	console.log(x);
+	sendData['x'] = x;
+	/** parse Y Data*/
+	var dy = data['y'];
+	var ty = {};
+	for(var i=0;i<dy.length;i++){
+		for(var j=0;j<dy[i].length;j++){
+			var sub = dy[i][j]['subtype'].toString();
+			if(!(sub.toString() in ty)){
+				//console.log('not');
+				ty[sub.toString()]=initArray(dataLength);
+				//console.log(ty);
+			}
+			ty[sub.toString()][i] = dy[i][j]['appSubtypeCount'];
+		}
+
+	}
+	console.log(ty);
+	
+	for(var ddy in ty){
+		y.push({name : ddy,data:ty[ddy]});
+	}
+	console.log(y);
+	sendData['y'] = y;
+	console.log(JSON.stringify(sendData));
+
+	function initArray(l){
+		var ar = [];
+		for(var i=0;i<l;i++)ar.push(0);
+		return ar;
+	}
+	return sendData;
+}
+
+
+
 
 
 
