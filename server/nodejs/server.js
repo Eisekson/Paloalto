@@ -599,7 +599,7 @@ app.post('/query/threatQuery2', function (req, res) {
             console.log(sql);
             throw err;
         }
-        var sendData = getQuery2Data(result);
+        var sendData = getThreatQuery2Data(result);
         res.jsonp(sendData);
 
     });
@@ -634,6 +634,7 @@ app.post('/query/threatQuery3', function (req, res) {
     	});
 	pool.getConnection(function (err,connection){
 		var sql = "SELECT app,count(app) as appCount FROM `threat_hour_data` WHERE time_generated between '"+st+"' and '"+et+"' group by app order by appCount desc limit 10";
+		console.log(sql);
 		connection.query(sql,function(err,result){
 			if(err){
 				console.log('err');
