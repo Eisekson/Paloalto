@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>無標題文件</title>
+<script type="text/javascript" src="../js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="highchart_lib/highcharts.js"></script>
+<script type="text/javascript" src="highchart_lib/modules/exporting.js"></script>
+<script type="text/javascript" src="fun.js"></script>
+<style>
+.center{
+	position:absolute;
+};
+.center_main{
+	position:absolute;
+};
+</style>
+</head>
+
+<body style="margin:0px;" onload="init();">
+
+<!--上列與LOGO-->
+<div style="width: 100%; height: 629px; position: absolute;" onclick="stop0();">
+<img src="20130709/已匯出/天花板/天花板/天花板_0001_圖層-12-拷貝-2.png" width="100%" height="61" style="position:absolute;" />
+<img id="paloalto_logo" src="20130709/已匯出/paloalto/paloalto.png" width="772" height="434" style="position:absolute;" />
+</div>
+<!--<div id="container" onclick="fnc(this);" style=" background-image: url(%E6%8C%89%E9%88%95.png); border:0px solid #0000CC; border-radius:10px; left:100px; top:100px; width: 307px; height: 235px; position:absolute;"></div>-->
+<!--<input type="button" onclick="stop0();" />-->
+<!--中間頁面-->
+<div id="div_main" class="center_main" style="width:1024px; height:768px; border:5px solid; position:absolute; " >
+<div id="main_NetworkUsageAnalysisChart" style="left:25px; top:115px; position:absolute; width:215px; height:216px; border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png)">
+<img class="center" src="20130709/已匯出/字/新增資料夾/網路使用分析圖.png" width="132" height="89" />
+</div>
+<div id="main_AdministratorMainScreen" style=" left:280px; top:115px; position:absolute; width:215px; height:216px; border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png);">
+<img class="center" src="20130709/已匯出/字/新增資料夾/管理者主畫面.png" width="98" height="89" />
+</div>
+<div id="main_ControllingHistoricalDataInquiry" style=" left:535px; top:115px; position:absolute; width:215px; height:216px;  border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png);">
+<img class="center" src="20130709/已匯出/字/新增資料夾/管制歷史資料查詢.png" width="132" height="90" />
+</div>
+<div id="main_ApplicationAnalysis" style=" left:790px; top:115px; position:absolute; width:215px; height:216px; border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png);">
+<img class="center" src="20130709/已匯出/字/新增資料夾/應用程式分析.png" width="133" height="89" />
+</div>
+<div id="main_MaintainControlPolicy" style=" left:25px; top:500px; position:absolute; width:215px; height:216px; border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png);">
+<img class="center" src="20130709/已匯出/字/新增資料夾/管制政策維護.png" width="133" height="90" />
+</div>
+<div id="main_SearchHistory" style=" left:280px; top:500px; position:absolute; width:215px; height:216px; border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png);">
+<img class="center" src="20130709/已匯出/字/新增資料夾/查詢歷史.png" width="163" height="96" />
+</div>
+<div id="main_WhiteList" style=" left:535px; top:500px; position:absolute; width:215px; height:216px; border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png);">
+<img class="center" src="20130709/已匯出/字/新增資料夾/白名單.png" width="96" height="31" />
+</div>
+<div id="main_WebUserQueries" style=" left:790px; top:500px; position:absolute; width:215px; height:216px; border:5px solid; background-image:url(20130709/%E5%B7%B2%E5%8C%AF%E5%87%BA/%E6%8C%89%E9%88%95/1%E6%8C%89%E9%88%95/%E6%8C%89%E9%88%95.png);">
+<img class="center" src="20130709/已匯出/字/新增資料夾/使用者查詢網頁.png" width="133" height="89" />
+</div>
+</div>
+<div id="show_form" style="background-color:rgba(255,255,255,1);position:absolute; border:0px solid; border-radius:5px; display:none;">LL</div>
+<img id="show_X_btn" style="left:10px; top:65px; display:none; position:absolute;" src="20130709/已匯出/Sign out/新資料夾/X按鈕.png" width="54" height="54" />
+
+<!--上列按鈕-->
+<div id="above">
+<img id="Above_AnalysisForm" style="left:0px; position:absolute;" src="20130709/已匯出/天花板/天花板/分析表格.png" width="69" height="47" />
+<img id="Above_UserPermissionSettings" style="left:69px; position:absolute;" src="20130709/已匯出/天花板/天花板/使用者權限設定.png" width="69" height="47" />
+<img id="Above_AccountManagement" style="left:138px; position:absolute;" src="20130709/已匯出/天花板/天花板/帳號管理.png" width="69" height="47" />
+</div>
+<!--登出框框-->
+<div id="div_sign_out" style="left:80%; border:5px solid; position:absolute; display:none;" >
+<img style="position:relative;" src="20130709/已匯出/Sign out/新資料夾/s_0000_圖層-136.png" width="206" height="170" />
+<img id="sign_out_OK_btn" style="left:30px;top:90px; position:absolute;" src="20130709/已匯出/Sign out/新資料夾/確定按鈕.png" width="54" height="54"  />
+<img id="sign_out_X_btn" style="left:120px;top:90px; position:absolute;" src="20130709/已匯出/Sign out/新資料夾/X按鈕.png" width="54" height="54" />
+</div>
+<!--登入頁面-->
+<div id="div_sign_in" style="width:50px; height:50px; left:40%; top:40%; border:5px solid; position:absolute; display:none;">
+<img id="SignInForm" src="20130709/已匯出/sign in/sign in/SignIn訊框.png" width="587" height="380" />
+<img style="left:500px;top:270px; position:absolute;" id="sign_in_OK_btn" src="20130709/已匯出/sign in/sign in/確定按鈕.png" width="54" height="54" />
+<img id="sign_in_Register_btn" style="left:420px;top:327px; position:absolute;"  src="20130709/已匯出/sign in/sign in/Register按鈕.png" width="100" height="27" />
+<img id="sign_in_NoAccount_btn" style="left:40px;top:327px; position:absolute;"  src="20130709/已匯出/sign in/sign in/Ican’t access my accountRegister按鈕.png"  width="329" height="26" />
+<input id="sign_in_username" type="text" pattern="[A-Za-z]" required style="left:210px;top:160px;height:35px;width:320px; border-style:0px solid;font-size: 24pt; position:absolute;">
+<input id="sign_in_password" type="password" required style="left:210px;top:220px; height:35px;width:320px; border-style:0px solid; font-size: 24pt; position:absolute;">
+</div>
+<!--註冊頁面-->
+<div id="div_Register" style="width:50px; height:50px; left:40%; top:40%; border:5px solid; position:absolute; display:none;">
+<img id="RegisterForm" src="20130709/已匯出/register/register/Register.png" width="587" height="428" />
+<img id="Register_X_btn" style="left:540px;top:15px; position:absolute;" src="20130709/已匯出/register/register/X按鈕.png" width="29" height="26" />
+<img id="Register_OK_btn" style="left:480px;top:360px; position:absolute;" src="20130709/已匯出/register/register/確定按鈕.png" width="54" height="54" />
+<input id="Register_name" type="text" pattern="[A-Za-z]" required style="left:215px;top:133px;height:35px;width:320px; border-style:0px solid;font-size: 24pt; position:absolute;">
+<input id="Register_email" type="email" required style="left:215px;top:193px; height:35px;width:320px; border-style:0px solid; font-size: 24pt; position:absolute;">
+<input id="Register_username" type="text" pattern="[A-Za-z]" required style="left:215px;top:253px;height:35px;width:320px; border-style:0px solid;font-size: 24pt; position:absolute;">
+<input id="Register_password" type="password" required style="left:215px;top:313px; height:35px;width:320px; border-style:0px solid; font-size: 24pt; position:absolute;">
+</div>
+    
+<div id="TEST" style="width:50px; height:50px; left:90%;  border:5px solid; position:absolute;" onclick="TEST();" >User Name</div>
+<div id="TEST2" style="left:300px;width:50px; height:50px;  border:5px solid; position:absolute;" onclick="TEST2();" >QQ2</div>
+</body>
+</html>

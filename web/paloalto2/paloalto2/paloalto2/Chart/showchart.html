@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head >
+<head>
     <script>
         document.ondragstart = function () { return false; }
         document.onselectstart = function () { return false; }
@@ -23,55 +23,55 @@
     <!-- HighChart js -->
     <script src="../js/highcharts.js"></script>
     <script src="../js/modules/exporting.js"></script>
-    
-    
+
+
     &nbsp;<!--<script src="chartjs/長條圖.js"></script>
     <script src="chartjs/線條圖.js"></script>
 
     <script src="chartjs/表格.js"></script>--></head><body><script>
-        var x, y;
-        window.onload = function () {
+                                                             var x, y;
+                                                             window.onload = function () {
 
-            /*
-            $.ajax({
-                type: "POST",
-                url: "/ShowChart/getApp",
-                data: {},
-                dataType: "jsonp",
-                jsonpCallback: "_testcb",
-                cache: false,
-                timeout: 50000,
-                success: function (data) {
-                    console.log(JSON.stringify(data[1]['app']));
-                    for (var i = 0; i < data.length; i++) {
-                        var app = document.getElementById('app');
-                        var e = document.createElement('option');                        
-                        e.text = data[i]['app'];
-                        e.value = data[i]['app'];
-                        app.appendChild(e);
-                    }
-
-                    //if (data == 'OK') {
-
-                    //} else if (data == 'DataError') {
-
-                    //} else {
-                    //    console.log('/data/data 資料有誤' + data);
-                    //}
-                },
-                error: function (data) {                    
-                    alert('error');
-                    alert(JSON.stringify(data));
-                }
-            });
-            */
-        }
+                                                                 /*
+                                                                 $.ajax({
+                                                                     type: "POST",
+                                                                     url: "/ShowChart/getApp",
+                                                                     data: {},
+                                                                     dataType: "jsonp",
+                                                                     jsonpCallback: "_testcb",
+                                                                     cache: false,
+                                                                     timeout: 50000,
+                                                                     success: function (data) {
+                                                                         console.log(JSON.stringify(data[1]['app']));
+                                                                         for (var i = 0; i < data.length; i++) {
+                                                                             var app = document.getElementById('app');
+                                                                             var e = document.createElement('option');                        
+                                                                             e.text = data[i]['app'];
+                                                                             e.value = data[i]['app'];
+                                                                             app.appendChild(e);
+                                                                         }
+                                                     
+                                                                         //if (data == 'OK') {
+                                                     
+                                                                         //} else if (data == 'DataError') {
+                                                     
+                                                                         //} else {
+                                                                         //    console.log('/data/data 資料有誤' + data);
+                                                                         //}
+                                                                     },
+                                                                     error: function (data) {                    
+                                                                         alert('error');
+                                                                         alert(JSON.stringify(data));
+                                                                     }
+                                                                 });
+                                                                 */
+                                                             }
 
     </script><div class="ui-widget-header ui-corner-all" style="padding: 5px;">
         <label style="color: #000080">應用程式用量分析圖</label><br />
         時間區段:
         <label for="from">From</label>
-        <input type="text" id="fromDate" name="from"  value="05/02/2013" />
+        <input type="text" id="fromDate" name="from" value="05/02/2013" />
         <select id="fromHour">
             <option>00:00</option>
             <option>01:00</option>
@@ -212,167 +212,167 @@
 
 
     </div>
-    <div id="changType" style="visibility: hidden">
-        <br />
-        <button onclick="changType('container','area',null)">area</button>
-        <button onclick="changType('container','column',{stacking: 'normal'})">column</button>
-        <button onclick="changType('container','line',null)">line</button>
-        <button onclick="changType('container','spline',null)">spline</button>
-        <button onclick="changType('container','bar',{stacking: 'normal'})">bar</button>
-    </div>
-    <div id="container" style="border-color: #000000; width: 1024px; height: 500px;"></div>
+        <div id="changType" style="visibility: hidden">
+            <br />
+            <button onclick="changType('container','area',null)">area</button>
+            <button onclick="changType('container','column',{stacking: 'normal'})">column</button>
+            <button onclick="changType('container','line',null)">line</button>
+            <button onclick="changType('container','spline',null)">spline</button>
+            <button onclick="changType('container','bar',{stacking: 'normal'})">bar</button>
+        </div>
+        <div id="container" style="border-color: #000000; width: 1024px; height: 500px;"></div>
 
 
-    <!-- 日期選擇器 -->
-    <script>
+        <!-- 日期選擇器 -->
+        <script>
 
 
 
-        $(function () {
+            $(function () {
 
-            $("#fromDate").datepicker({
-                defaultDate: "+1w",
-                changeMonth: false,
-                numberOfMonths: 1,
-                showButtonPanel: true,
-                onClose: function (selectedDate) {
-                    $("#toDate").datepicker("option", "minDate", selectedDate);
-                }
-            });
-            $("#toDate").datepicker({
-                defaultDate: "+1w",
-                changeMonth: false,
-                numberOfMonths: 1,
-                showButtonPanel: true,
-                onClose: function (selectedDate) {
-                    $("#fromDate").datepicker("option", "maxDate", selectedDate);
-                }
-            });
-        });
-    </script>
-
-    <!-- container -->
-    <script>
-        var gt = null;                 
-        function changType(div,t, plo) {
-            if (t == null) {
-                t = gt;
-            }
-            if (t == 'column' || t == 'bar') {
-                plo = { stacking: 'normal' };
-            }
-            gt = t;
-
-            var toDate = document.getElementById('toDate')
-                    , fromDate = document.getElementById('fromDate')
-                    , toHour = document.getElementById('toHour')
-                    , fromHour = document.getElementById('fromHour')
-                    , traffic = document.getElementById('traffic')
-            ;
-            $('#'+div).highcharts({
-                chart: {
-                    type: t
-                },
-                title: {
-                    text: x[0] + "時" + " ~ " + x[x.length - 1] + "時" + " " + document.getElementById('app').value + " " + document.getElementById('traffic').value
-                },
-                subtitle: {
-                    text: ''
-                },
-                xAxis: {
-                    categories: x,
-                    labels: {
-                        rotation: -45,
-                        style: {
-                            fontSize: '0px'
-                        }
+                $("#fromDate").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: false,
+                    numberOfMonths: 1,
+                    showButtonPanel: true,
+                    onClose: function (selectedDate) {
+                        $("#toDate").datepicker("option", "minDate", selectedDate);
                     }
-                },
-                yAxis: {
+                });
+                $("#toDate").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: false,
+                    numberOfMonths: 1,
+                    showButtonPanel: true,
+                    onClose: function (selectedDate) {
+                        $("#fromDate").datepicker("option", "maxDate", selectedDate);
+                    }
+                });
+            });
+        </script>
+
+        <!-- container -->
+        <script>
+            var gt = null;
+            function changType(div, t, plo) {
+                if (t == null) {
+                    t = gt;
+                }
+                if (t == 'column' || t == 'bar') {
+                    plo = { stacking: 'normal' };
+                }
+                gt = t;
+
+                var toDate = document.getElementById('toDate')
+                        , fromDate = document.getElementById('fromDate')
+                        , toHour = document.getElementById('toHour')
+                        , fromHour = document.getElementById('fromHour')
+                        , traffic = document.getElementById('traffic')
+                ;
+                $('#' + div).highcharts({
+                    chart: {
+                        type: t
+                    },
                     title: {
+                        text: x[0] + "時" + " ~ " + x[x.length - 1] + "時" + " " + document.getElementById('app').value + " " + document.getElementById('traffic').value
+                    },
+                    subtitle: {
                         text: ''
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                    formatter: function () {
-
-                        console.log(app.value);
-                        return '<b>' + this.series.name + '</b><br/>'
-                            + '時間: ' + this.x + "時" + '</b><br/>'
-                            + traffic.value + ": " + (this.y / 1024).toFixed(2) + 'KB' + '</b><br/>'
-                            + '點擊查詢前30大IP來源';
-                    }
-                },
-                plotOptions: {
-                    series: {
-                        stacking:plo,
-                                cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: function () {
-                                    //alert(this.series.name + " " + this.category + " " + this.y);
-                                    var time = this.category;
-                                    var sendData = new Object();
-                                    sendData['time'] = time;
-                                    sendData['app'] = this.series.name;
-                                    sendData['traffic'] = traffic.value;
-                                    //alert(time);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "/query/apptoip",
-                                        data: { data: JSON.stringify(sendData) },
-                                        dataType: "jsonp",
-                                        jsonpCallback: "_testcb",
-                                        cache: false,
-                                        timeout: 50000,
-                                        success: function (data) {
-                                            if (data == 'error') {
-                                                alert('can not find the data');
-                                            } else {
-                                                console.log(JSON.stringify(data));
-                                                window.localStorage.setItem('apptoipdata', JSON.stringify(data));
-                                                window.open(location.href = '../apptoip.html', '_parent');
-                                            }
-                                        },
-                                        error: function (data) {
-                                            alert('error');
-                                            alert(JSON.stringify(data));
-                                        }
-                                    });
-
-                                }
+                    },
+                    xAxis: {
+                        categories: x,
+                        labels: {
+                            rotation: -45,
+                            style: {
+                                fontSize: '0px'
                             }
-                        },
-                        marker: {
-                            lineWidth: 1
                         }
                     },
+                    yAxis: {
+                        title: {
+                            text: ''
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        formatter: function () {
 
-                    line: {
-                        dataLabels: {
-                            enabled: false
+                            console.log(app.value);
+                            return '<b>' + this.series.name + '</b><br/>'
+                                + '時間: ' + this.x + "時" + '</b><br/>'
+                                + traffic.value + ": " + (this.y / 1024).toFixed(2) + 'KB' + '</b><br/>'
+                                + '點擊查詢前30大IP來源';
+                        }
+                    },
+                    plotOptions: {
+                        series: {
+                            stacking: plo,
+                            cursor: 'pointer',
+                            point: {
+                                events: {
+                                    click: function () {
+                                        //alert(this.series.name + " " + this.category + " " + this.y);
+                                        var time = this.category;
+                                        var sendData = new Object();
+                                        sendData['time'] = time;
+                                        sendData['app'] = this.series.name;
+                                        sendData['traffic'] = traffic.value;
+                                        //alert(time);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/query/apptoip",
+                                            data: { data: JSON.stringify(sendData) },
+                                            dataType: "jsonp",
+                                            jsonpCallback: "_testcb",
+                                            cache: false,
+                                            timeout: 50000,
+                                            success: function (data) {
+                                                if (data == 'error') {
+                                                    alert('can not find the data');
+                                                } else {
+                                                    console.log(JSON.stringify(data));
+                                                    window.localStorage.setItem('apptoipdata', JSON.stringify(data));
+                                                    window.open(location.href = '../apptoip.html', '_parent');
+                                                }
+                                            },
+                                            error: function (data) {
+                                                alert('error');
+                                                alert(JSON.stringify(data));
+                                            }
+                                        });
+
+                                    }
+                                }
+                            },
+                            marker: {
+                                lineWidth: 1
+                            }
                         },
-                        enableMouseTracking: true
-                    }
 
-                },
+                        line: {
+                            dataLabels: {
+                                enabled: false
+                            },
+                            enableMouseTracking: true
+                        }
 
-                legend: {
-                    //  layout: 'vertical',
-                    //  align: 'top',
-                    // verticalAlign: 'top',
-                    //x:-200,
-                    borderWidth: 1//框線
-                },
-                series: y
-            });
-        }
+                    },
+
+                    legend: {
+                        //  layout: 'vertical',
+                        //  align: 'top',
+                        // verticalAlign: 'top',
+                        //x:-200,
+                        borderWidth: 1//框線
+                    },
+                    series: y
+                });
+            }
 
 
-    </script>
+        </script>
 
 
 
-</body>
+    </body>
 </html>

@@ -27,14 +27,14 @@ interface HighchartsAxisEvent extends Event {
 
 interface HighchartsAxisLabels {
     align?: string;
-    enabled?: bool;
+    enabled?: boolean;
     formatter?: () => string;
     overflow?: string;
     rotation?: number;
     staggerLines?: number;
     step?: number;
     style?: HighchartsCSSObject;
-    useHTML?: bool;
+    useHTML?: boolean;
     x?: number;
     y?: number;
 }

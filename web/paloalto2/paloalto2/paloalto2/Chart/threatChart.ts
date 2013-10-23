@@ -2,6 +2,8 @@
 ///<reference path="..\Scripts\typings\highcharts\highcharts.d.ts"/>
 
 
+
+
 module TC {
     /**查詢的資料*/
     var queryData: QueryData;
@@ -10,12 +12,16 @@ module TC {
     class QueryData {
         /**開始日期*/
         fromDate = null;
+
         /**開始小時*/
         fromHour = null;
+
         /**結束日期*/
         toDate = null;
+
         /**結束小時*/
         toHour = null;
+
         /**APP 0前十大 1前二十大 2前三十大 3前四十大*/
         appIndex = null;
 
@@ -28,7 +34,6 @@ module TC {
             this.toDate = (<HTMLInputElement> document.getElementById('toDate')).value.toString().replace(/\//g, '-');
             this.toHour = (<HTMLSelectElement> document.getElementById('toHour')).value + ":00";
             this.appIndex = (<HTMLSelectElement> document.getElementById('app')).selectedIndex;
-
         }
     }
 
@@ -73,9 +78,15 @@ module TC {
         /**title*/
         title: string;
 
+        /**yTitle*/
+        yTitle: string;
 
+        /**sTitle*/
+        xTitle: string;
 
-
+        xFontSize: string;
+        clickFunction: Function;
+        
         /**  @param id div的id @param type 圖的type  如 line column */
         constructor(id: string, type: string, cd: ChartData) {
             this.charId = id;
@@ -86,17 +97,46 @@ module TC {
         setTitle(t: string) {
             this.title = t;
         }
-        show() {
+        setYTitle(t: string) {
+            this.yTitle = t;
+        }
+        setXTitle(t: string) {
+            this.xTitle = t;
+        }
+        setxFontSize(size: string) {
+            this.xFontSize = size;
+        }
 
+        show() {
+                        
             this.chart = new Highcharts.Chart({
                 chart: {
                     renderTo: this.charId,
                     type: this.type
                 },
-                xAxis: [this.cd.xAxis],
+                yAxis: {
+                    title: {
+                        text: this.yTitle.toString()
+                    },
+                    labels: {
+                        format: '{value} 個'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        text: this.xTitle.toString()
+                    },
+                    categories: this.cd.xAxis.categories,
+                    labels: {
+                        rotation: -30,
+                        style: {
+                            fontSize: (this.xFontSize == null) ? "12px" : this.xFontSize.toString()
+                        }
+                    }
+                },                
                 plotOptions: {
                     column: {
-                        stacking: 'normal'                        
+                        stacking: 'normal'
                     }
                 },
                 series: this.cd.yAxis,
@@ -104,11 +144,7 @@ module TC {
                     text: this.title
                 }
             });
-
-
-
         }
-
     }
 
     /**y軸 資料*/
@@ -161,14 +197,16 @@ module TC {
                     //alert('can not find the data');
                 } else {
                     var cd = new ChartData();
+                    
 
-
-                    cd.xAxis.categories = JSON.parse(data['x']);
+                    cd.xAxis.categories = JSON.parse(data['x']);                       
                     cd.yAxis = JSON.parse(data['y']);
-                    alert(JSON.stringify(cd.yAxis));
+                    //alert(JSON.stringify(cd.yAxis));
                     var c1 = new Chart('c1', 'column', cd);
-                    c1.setTitle("c1");
-
+                    c1.setTitle("每小時的Subtype量");
+                    c1.setYTitle("Subtype");
+                    c1.setXTitle("Time");
+                    c1.setxFontSize("0px");
                     c1.show();
                     query2();
                     //alert(JSON.stringify(data));
@@ -176,7 +214,7 @@ module TC {
                 }
             },
             error: function (data) {
-                alert('error');
+                alert('No Data');
                 alert(JSON.stringify(data));
             }
         });
@@ -204,24 +242,28 @@ module TC {
 
                     cd.xAxis.categories = JSON.parse(data['x']);
                     cd.yAxis = JSON.parse(data['y']);
-                    alert(JSON.stringify(cd.yAxis));
+                    //alert(JSON.stringify(cd.yAxis));
                     var c2 = new Chart('c2', 'column', cd);
-                    c2.setTitle("Query2");
-
+                    c2.setTitle("每小時的前十大app的session量");
+                    c2.setXTitle("Time");
+                    c2.setYTitle("APP");
+                    c2.setxFontSize('0px');
                     c2.show();
 
-
+                    query3();
 
 
                 }
             },
             error: function (data) {
-                alert('error');
+                alert('No Data');
                 alert(JSON.stringify(data));
             }
         });
     }
     function query3() {
+        var queryData = new QueryData();
+        queryData.setDate();
         $.ajax({
             type: "POST",
             url: "/query/threatQuery3",
@@ -234,12 +276,22 @@ module TC {
                 if (data == 'error') {
                     alert('can not find the data');
                 } else {
-                    console.log(JSON.stringify(data));
+                    //alert(JSON.stringify(data));
+                    var cd = new ChartData();
 
+                    cd.xAxis.categories = data['x'];
+                    cd.yAxis = data['y'];
+                    //alert(JSON.stringify(cd.yAxis));
+                    var c3 = new Chart('c3', 'column', cd);
+                    c3.setTitle("前十大app的每個Subtype量");
+                    c3.setYTitle("Subtype");
+                    c3.setXTitle("APP");
+                    //c3.setxFontSize("12px");
+                    c3.show();
                 }
             },
             error: function (data) {
-                alert('error');
+                alert('No Data');
                 alert(JSON.stringify(data));
             }
         });
@@ -250,18 +302,13 @@ module TC {
 
     window.onload = () => {
 
-
-
         var btn_query: HTMLInputElement = <HTMLInputElement> document.getElementById('btn_query');
         btn_query.onclick = () => {
-            alert('query');
+            //alert('query');
             query1();
-
-
-
         }
-
-
+        query1();
+        /*
 
         var cd = new ChartData();
         queryData = new QueryData();
@@ -286,20 +333,25 @@ module TC {
 
 
         var c1 = new Chart('c1', 'column', cd);
-        c1.setTitle("c1");
-
+        c1.setTitle("每小時的Subtype量");
+        c1.setYTitle("Subtype");
+        c1.setXTitle("Time");
         c1.show();
         var c2 = new Chart('c2', 'column', cd);
-        c2.setTitle('c2');
+        c2.setTitle('每小時的前十大app的session量');
+        c2.setXTitle("time");
+        c2.setYTitle("APP");
         c2.show();
         var c3 = new Chart('c3', 'column', cd);
-        c3.setTitle('c3');
+        c3.setTitle('前十大app的每個Subtype量');
+        c3.setYTitle("Subtype");
+        c3.setXTitle("APP");
         c3.show();
 
 
 
 
-
+*/
 
 
 

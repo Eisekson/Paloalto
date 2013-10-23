@@ -3,6 +3,9 @@
 var crypto = require('crypto');
 
 var fs = require('fs');
+var dgram = require('dgram');
+var server = dgram.createSocket('udp4');
+
 var encode = "utf-8";
 
 
@@ -31,8 +34,7 @@ function qu(srcdata, sql) {
 
             fs.appendFile('../../data/ErrorData.txt', str1, function (err) {
                 if (err) {
-                    console.log(err);
-                    throw err;
+                    console.log(err);                    
                 }
                 else {
                     //console.log(showdata);
@@ -44,8 +46,7 @@ function qu(srcdata, sql) {
             for (var i = 0; i < sa.length; i++) {
                 console.log((i + 1) + "  " + sa[i]);
             }
-            console.log(sql.split(',').length);
-            throw err;
+            console.log(sql.split(',').length);            
         }
         console.log('The inseerid is: ', result.insertId);
     });
@@ -58,15 +59,11 @@ function logServer() {
     var PORT = 514;
     var HOST = '120.110.114.33';
 
-    var dgram = require('dgram');
-    var server = dgram.createSocket('udp4');
-    var fs = require('fs');
+
 
     server.on('message', function (message, remote) {
-
+        console.log('get Log');
         var str = ',' + message.toString();
-
-
         
 
         str = ddd(str);
@@ -96,20 +93,22 @@ function logServer() {
             }*/
         }
 
-        fs.appendFile('../../data/log.txt', str, function (err) {
-            if (err) {
-                console.log(err);
-                throw err;
-            }
-            else {
-
-                //console.log(showdata);
-            }
-        });
+        //fs.appendFile('../../data/log.txt', str, function (err) {
+        //    if (err) {
+        //        console.log(err);                
+        //    }
+        //    else {
+        //        //console.log(showdata);
+        //    }
+        //});
         
     });
-
+    server.on("error", function (err) {
+        console.log("server error:\n" + err.stack);
+        server.close();
+    });
     server.bind(PORT, HOST);
+    console.log('log Server Start ');
 }
 logServer();
 

@@ -245,7 +245,7 @@
           <IISUrl>http://localhost:65059/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>True</UseCustomServer>
-          <CustomServerUrl>http://120.110.114.33</CustomServerUrl>
+          <CustomServerUrl>http://120.110.114.33:8083</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

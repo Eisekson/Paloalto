@@ -20,33 +20,33 @@ and limitations under the License.
 */
 interface JQueryAjaxSettings {
     accepts?: any;
-    async?: bool;
+    async?: boolean;
     beforeSend?(jqXHR: JQueryXHR, settings: JQueryAjaxSettings);
-    cache?: bool;
+    cache?: boolean;
     complete?(jqXHR: JQueryXHR, textStatus: string);
     contents?: { [key: string]: any; };
     contentType?: string;
     context?: any;
     converters?: { [key: string]: any; };
-    crossDomain?: bool;
+    crossDomain?: boolean;
     data?: any;
     dataFilter?(data: any, ty: any): any;
     dataType?: string;
     error?(jqXHR: JQueryXHR, textStatus: string, errorThrow: string): any;
-    global?: bool;
+    global?: boolean;
     headers?: { [key: string]: any; };
-    ifModified?: bool;
-    isLocal?: bool;
+    ifModified?: boolean;
+    isLocal?: boolean;
     jsonp?: string;
     jsonpCallback?: any;
     mimeType?: string;
     password?: string;
-    processData?: bool;
+    processData?: boolean;
     scriptCharset?: string;
     statusCode?: { [key: string]: any; };
     success?(data: any, textStatus: string, jqXHR: JQueryXHR);
     timeout?: number;
-    traditional?: bool;
+    traditional?: boolean;
     type?: string;
     url?: string;
     username?: string;
@@ -70,11 +70,11 @@ interface JQueryCallback {
     disable(): any;
     empty(): any;
     fire(...arguments: any[]): any;
-    fired(): bool;
+    fired(): boolean;
     fireWith(context: any, ...args: any[]): any;
-    has(callback: any): bool;
+    has(callback: any): boolean;
     lock(): any;
-    locked(): bool;
+    locked(): boolean;
     remove(...callbacks: any[]): any;
 }
 
@@ -111,9 +111,9 @@ interface JQueryDeferred extends JQueryPromise {
 interface BaseJQueryEventObject extends Event {
     data: any;
     delegateTarget: Element;
-    isDefaultPrevented(): bool;
-    isImmediatePropogationStopped(): bool;
-    isPropagationStopped(): bool;
+    isDefaultPrevented(): boolean;
+    isImmediatePropogationStopped(): boolean;
+    isPropagationStopped(): boolean;
     namespace: string;
     preventDefault(): any;
     relatedTarget: Element;
@@ -128,10 +128,10 @@ interface BaseJQueryEventObject extends Event {
 
 interface JQueryInputEventObject extends BaseJQueryEventObject
 {
-    altKey: bool;
-    ctrlKey: bool;
-    metaKey: bool;
-    shiftKey: bool;
+    altKey: boolean;
+    ctrlKey: boolean;
+    metaKey: boolean;
+    shiftKey: boolean;
 }
 
 interface JQueryMouseEventObject extends JQueryInputEventObject
@@ -168,25 +168,25 @@ interface JQueryEventObject extends BaseJQueryEventObject, JQueryInputEventObjec
 */
 
 interface JQuerySupport {
-    ajax?: bool;
-    boxModel?: bool;
-    changeBubbles?: bool;
-    checkClone?: bool;
-    checkOn?: bool;
-    cors?: bool;
-    cssFloat?: bool;
-    hrefNormalized?: bool;
-    htmlSerialize?: bool;
-    leadingWhitespace?: bool;
-    noCloneChecked?: bool;
-    noCloneEvent?: bool;
-    opacity?: bool;
-    optDisabled?: bool;
-    optSelected?: bool;
-    scriptEval?(): bool;
-    style?: bool;
-    submitBubbles?: bool;
-    tbody?: bool;
+    ajax?: boolean;
+    boxModel?: boolean;
+    changeBubbles?: boolean;
+    checkClone?: boolean;
+    checkOn?: boolean;
+    cors?: boolean;
+    cssFloat?: boolean;
+    hrefNormalized?: boolean;
+    htmlSerialize?: boolean;
+    leadingWhitespace?: boolean;
+    noCloneChecked?: boolean;
+    noCloneEvent?: boolean;
+    opacity?: boolean;
+    optDisabled?: boolean;
+    optSelected?: boolean;
+    scriptEval?(): boolean;
+    style?: boolean;
+    submitBubbles?: boolean;
+    tbody?: boolean;
 }
 
 interface JQueryParam {
@@ -261,7 +261,7 @@ interface JQueryStatic {
 
     dequeue(element: Element, queueName?: string): any;
 
-    hasData(element: Element): bool;
+    hasData(element: Element): boolean;
 
     queue(element: Element, queueName?: string): any[];
     queue(element: Element, queueName: string, newQueueOrCallback: any): JQuery;
@@ -271,7 +271,7 @@ interface JQueryStatic {
     /*******
      EFFECTS
     ********/
-    fx: { tick: () => void; interval: number; stop: () => void; speeds: { slow: number; fast: number; }; off: bool; step: any; };
+    fx: { tick: () => void; interval: number; stop: () => void; speeds: { slow: number; fast: number; }; off: boolean; step: any; };
 
     /******
      EVENTS
@@ -294,7 +294,7 @@ interface JQueryStatic {
     **************/
     expr: any;
     fn: any;  //TODO: Decide how we want to type this
-    isReady: bool;
+    isReady: boolean;
 
     /**********
      PROPERTIES
@@ -304,7 +304,7 @@ interface JQueryStatic {
     /*********
      UTILITIES
     **********/
-    contains(container: Element, contained: Element): bool;
+    contains(container: Element, contained: Element): boolean;
 
     each(collection: any, callback: (indexInArray: any, valueOfElement: any) => any): any;
     each(collection: any[], callback: (indexInArray: any, valueOfElement: any) => any): any;
@@ -321,13 +321,13 @@ interface JQueryStatic {
 
     inArray(value: any, array: any[], fromIndex?: number): number;
 
-    isArray(obj: any): bool;
-    isEmptyObject(obj: any): bool;
-    isFunction(obj: any): bool;
-    isNumeric(value: any): bool;
-    isPlainObject(obj: any): bool;
-    isWindow(obj: any): bool;
-    isXMLDoc(node: Node): bool;
+    isArray(obj: any): boolean;
+    isEmptyObject(obj: any): boolean;
+    isFunction(obj: any): boolean;
+    isNumeric(value: any): boolean;
+    isPlainObject(obj: any): boolean;
+    isWindow(obj: any): boolean;
+    isXMLDoc(node: Node): boolean;
 
     makeArray(obj: any): any[];
 
@@ -397,7 +397,7 @@ interface JQuery {
     attr(map: { [key: string]: any; }): JQuery;
     attr(attributeName: string, func: (index: any, attr: any) => any): JQuery;
 
-    hasClass(className: string): bool;
+    hasClass(className: string): boolean;
 
     html(): string;
     html(htmlString: string): JQuery;
@@ -485,7 +485,7 @@ interface JQuery {
     ********/
     animate(properties: any, duration?: any, complete?: Function): JQuery;
     animate(properties: any, duration?: any, easing?: string, complete?: Function): JQuery;
-    animate(properties: any, options: { duration?: any; easing?: string; complete?: Function; step?: Function; queue?: bool; specialEasing?: any; });
+    animate(properties: any, options: { duration?: any; easing?: string; complete?: Function; step?: Function; queue?: boolean; specialEasing?: any; });
 
     delay(duration: number, queueName?: string): JQuery;
 
@@ -761,10 +761,10 @@ interface JQuery {
     has(selector: string): JQuery;
     has(contained: Element): JQuery;
 
-    is(selector: string): bool;
-    is(func: (index: any) =>any): bool;
-    is(element: any): bool;
-    is(obj: JQuery): bool;
+    is(selector: string): boolean;
+    is(func: (index: any) =>any): boolean;
+    is(element: any): boolean;
+    is(obj: JQuery): boolean;
 
     last(): JQuery;
 

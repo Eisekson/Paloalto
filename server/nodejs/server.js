@@ -14,30 +14,6 @@ var web_path = '../../web/paloalto2/paloalto2/paloalto2/';
 
 
 
-var t;
-(function (t) {
-    var a = (function () {
-        function a() {
-            this.b = 'a';
-        }
-        a.prototype.bb = function (b) {
-            this.b = b;
-        };
-        a.prototype.print = function () {
-            console.log(this.b);
-        };
-        return a;
-    })();
-    t.a = a;
-})(t || (t = {}));
-
-var tt = new t.a();
-var t2 = new t.a();
-t2.bb('b');
-tt.print();
-t2.print();
-
-
 /**ThreatChart Query Data class */
 var QueryData = (function () {
     function QueryData() {
@@ -103,12 +79,13 @@ app.configure(function () {
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(web_path));
+    app.use(express.session());
 });
 
 var mysql = require('mysql');
 
 
-qthr("SELECT * FROM `threat` where  threat.time_generated between str_to_date('2013-06-14 23:00:00','%Y-%m-%d %T') AND str_to_date('2013-06-14 23:59:59','%Y-%m-%d %T')");
+//qthr("SELECT * FROM `threat` where  threat.time_generated between str_to_date('2013-06-14 23:00:00','%Y-%m-%d %T') AND str_to_date('2013-06-14 23:59:59','%Y-%m-%d %T')");
 
 function qthr(sql) {
     var connection = mysql.createConnection({
@@ -379,13 +356,6 @@ app.post('/query/apptoip', function (req, res) {
     connection.end();
 
 
-
-
-
-
-
-
-
 });
 
 
@@ -443,36 +413,6 @@ function insertThreatData() {
 }
 
 
-testQuery();
-
-function testQuery() {
-    var connection = mysql.createConnection({
-        host: '120.110.114.25',
-        user: 'Paloalto',
-        password: 'password',
-        database: 'paloalto'
-    });
-    connection.connect();
-
-
-    //st   et
-    var sql = "SELECT app,count(app) as appCount FROM `threat_hour_data` WHERE time_generated between '2013-08-15 00:00:00' and '2013-08-23 00:00:00' group by app order by appCount desc limit 10";
-    connection.query(sql, function (err, rows) {
-        var appp = rows[0]['app'];
-        console.log(appp);
-        var sql2 = "SELECT * FROM threat_hour_data WHERE app = 'web-browsing' limit 10";
-
-        connection.query(sql2, function (err2, rows2) {
-            console.log('testQuery');
-            console.log(rows2);
-        });
-        
-
-    });
-    connection.end();
-}
-
-
 
 
 //Threat Query1
@@ -487,12 +427,13 @@ app.post('/query/threatQuery1', function (req, res) {
 
     st = transDateMDYToYMD(st);
     et = transDateMDYToYMD(et);
-
+//    st = ti(st);
+//    et = ti(et);
 
     console.log(st);
     console.log(et);
 
-    var xx = new XAxis();
+    var xx = new Array();
     var y = new YAxis();
     var xA = [];
     var yA = [];
@@ -511,25 +452,39 @@ app.post('/query/threatQuery1', function (req, res) {
     var sql = "SELECT time_generated,subtype,count('subtype') as countSutbype FROM threat_hour_data WHERE time_generated between '"+st+"' and '"+et+"' group by time_generated,subtype";
     connection.query(sql, function (err, rows) {
         if (err) {
-            res.jsonp('error');
+            if (rows.length == 0) {
+                res.jsonp("no Data");
+            } else {
+                res.jsonp('error');
+            }
         }
         else {
+           
             var time_generated = '';
             var map = {};
             var count = 0;
             var subtype = {};
 
+            console.log(rows);
+
+
             time_generated = rows[0]['time_generated'].toString();
+            count++;
+            xx.push(ti(rows[0]['time_generated']));
             for (var i = 0; i < rows.length; i++) {
                 subtype[rows[i]['subtype']] = true;
                 if (rows[i]['time_generated'].toString() == time_generated.toString()) {
                     //console.log(rows[i]['time_generated']);
                 } else {
                     count++;
-                    xx.categories.push(rows[i]['time_generated']);
+                    xx.push(ti(rows[i]['time_generated']));
                     time_generated = rows[i]['time_generated'];
                 }
             }
+
+       
+
+
             //[0,0,0,0,0,0,0,0]
             var array = [];
             for (var i = 0; i < count; i++) {
@@ -539,7 +494,10 @@ app.post('/query/threatQuery1', function (req, res) {
             for (var x in subtype) {
                 map[x] = array.concat();
             }
-            var count = 0;
+            
+
+            count = 0;
+            time_generated = rows[0]['time_generated'];
             for (var i = 0; i < rows.length; i++) {
                 if (rows[i]['time_generated'].toString() == time_generated.toString()) {
                 } else {
@@ -557,6 +515,7 @@ app.post('/query/threatQuery1', function (req, res) {
             var sendData = {};
             sendData['x'] = JSON.stringify(xx);
             sendData['y'] = JSON.stringify(yA);
+            console.log("Query1 Test");
             console.log(sendData);
 
 
@@ -579,7 +538,8 @@ app.post('/query/threatQuery2', function (req, res) {
 
     st = transDateMDYToYMD(st);
     et = transDateMDYToYMD(et);
-
+    //st = ti(st);
+    //et = ti(et);
 
     console.log(st);
     console.log(et);
@@ -594,10 +554,17 @@ app.post('/query/threatQuery2', function (req, res) {
     connection.connect();
 
     connection.query(sql, function (err, result) {
+        console.log(new Date().toString());
+        console.log(sql);
         if (err) {
-            console.log(new Date().toString());
-            console.log(sql);
-            throw err;
+            if (rows.length == 0) {
+                res.jsonp("no Data");
+            } else {
+                res.jsonp('error');
+                throw err;
+            }
+            
+            
         }
         var sendData = getThreatQuery2Data(result);
         res.jsonp(sendData);
@@ -610,9 +577,10 @@ app.post('/query/threatQuery2', function (req, res) {
 });
 
 
+
 ////Threat Query3
 app.post('/query/threatQuery3', function (req, res) {
-
+	con('Query3');
 
 	queryData = JSON.parse(req.body.data);
 	con(queryData);
@@ -624,6 +592,8 @@ app.post('/query/threatQuery3', function (req, res) {
 	
 	st = transDateMDYToYMD(st);
 	et = transDateMDYToYMD(et);
+	//st = ti(st);
+	//et = ti(et);
 	console.log(st);
 	console.log(et);
 	var pool = mysql.createPool({
@@ -635,12 +605,19 @@ app.post('/query/threatQuery3', function (req, res) {
 	pool.getConnection(function (err,connection){
 		var sql = "SELECT app,count(app) as appCount FROM `threat_hour_data` WHERE time_generated between '"+st+"' and '"+et+"' group by app order by appCount desc limit 10";
 		console.log(sql);
-		connection.query(sql,function(err,result){
-			if(err){
-				console.log('err');
-				console.log(err);
-			}
+		connection.query(sql, function (err, result) {
+
+		    if (err) {
+		        if (rows.length == 0) {
+		            res.jsonp("no Data");
+		        } else {
+		            console.log('err');
+		            console.log(err);
+		            res.jsonp('error');
+		        }
+		    }
 			console.log(result);
+
 			var countconnection2 = 0;
 
 			var saveData = new Array();
@@ -1302,10 +1279,12 @@ function QueryTrafficOfApp(sql) {
 //轉換時間 07-20-2013 00:00:00 成 2013-07-20 00:00:00
 function transDateMDYToYMD(time) {
     var d = new Date(time);
-    var ti = d.toJSON();
-    ti = ti.substring(0, 19);
-    ti = ti.replace(/T/g, ' ');
-    return ti;
+    d.setHours(d.getHours() + 8);
+    var t = d.toJSON();
+    t = t.substring(0, 19);
+    t = t.replace(/T/g, ' ');
+    t = ti(t);
+    return t;
 }
 
 //取得結束時間  格式為 2013-05-05 11:00:00
@@ -1359,9 +1338,10 @@ function getMyTime(yyyy, mm, dd, hh) {
 //將資料寫入檔案  將data字串，寫入檔名為fileName的檔案中，如果沒有檔案它會自行建立。
 function writeFile(fileName, data) {
     fs.appendFile(fileName, data, function (err) {
-        if (err)
+        if (err) {
             console.log(new Date().toString());
-        console.log(err);
+            console.log(err);
+        }
 
     });
 
@@ -1487,7 +1467,10 @@ function getThreatQuery2Data(da) {
     }
     //排序+找前十大APP
     for (var aa in a) {
-        q2xAxis.push(aa.substr(11,2));
+        //x軸只放小時
+        //q2xAxis.push(aa.substr(11, 2));
+        //x軸放全部的時間        
+        q2xAxis.push(ti(aa));
         a[aa].sort(function (b, c) { return c['count'] - b['count'] });
         var maxlength = 10;
         if (a[aa].length > maxlength) {

@@ -1,5 +1,0 @@
-C:\Users\Eisekson\Documents\00.paloalto\web\paloalto\paloalto\bin\paloalto.dll
-C:\Users\Eisekson\Documents\00.paloalto\web\paloalto\paloalto\bin\paloalto.pdb
-C:\Users\Eisekson\Documents\00.paloalto\web\paloalto\paloalto\obj\Debug\paloalto.csprojResolveAssemblyReference.cache
-C:\Users\Eisekson\Documents\00.paloalto\web\paloalto\paloalto\obj\Debug\paloalto.dll
-C:\Users\Eisekson\Documents\00.paloalto\web\paloalto\paloalto\obj\Debug\paloalto.pdb
