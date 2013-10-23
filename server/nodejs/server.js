@@ -1,4 +1,4 @@
-﻿function con(s) {
+function con(s) {
     console.log(s);
 }
 
