@@ -1,0 +1,116 @@
+
+
+key
+LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+1.Commit
+https://120.110.114.35/api/?type=commit& cmd=<commit></commit> &key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+
+2.Get
+https://hostname//api/?
+type=config&
+action=get&
+xpath=/config/devices/entry/vsys&
+key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+url:
+https://120.110.114.35/api/?type=config&action=get&xpath=/config/devices/entry/vsys&key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+3.set
+
+/entry[@name='ethernet1/2']&element=<regular-traffic><groups><entry name="regular-traffic-group"/></groups><bandwidth><egress-guaranteed>0</egress-guaranteed><egress-max>0</egress-max></bandwidth><default-group><qos-profile>default</qos-profile></default-group></regular-traffic><tunnel-traffic><groups><entry name="tunnel-traffic-group"/></groups><bandwidth><egress-guaranteed>0</egress-guaranteed><egress-max>0</egress-max></bandwidth></tunnel-traffic><interface-bandwidth><egress-max>10</egress-max></interface-bandwidth><enabled>yes</enabled>
+
+
+show QoS
+https://120.110.114.35/api/?type=config&action=show&xpath=/config/devices/entry/network/qos/interface/entry[@name='ethernet1/1']&key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+set QoS
+
+https://120.110.114.35/api/?type=config&action=set&xpath=/config/devices/entry/network/qos/interface/entry[@name='ethernet1/2']&element=<regular-traffic><groups><entry name="regular-traffic-group"/></groups><bandwidth><egress-guaranteed>0</egress-guaranteed><egress-max>0</egress-max></bandwidth><default-group><qos-profile>default</qos-profile></default-group></regular-traffic><tunnel-traffic><groups><entry name="tunnel-traffic-group"/></groups><bandwidth><egress-guaranteed>0</egress-guaranteed><egress-max>0</egress-max></bandwidth></tunnel-traffic><interface-bandwidth><egress-max>10</egress-max></interface-bandwidth><enabled>no</enabled>&key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+.set QoS
+
+
+show Object Group IP
+https://120.110.114.35/api/?type=config&action=show&xpath=/config/devices&key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+
+
+
+
+function isAddressExist ( ip )
+    describe:
+            test the address is exist the Group IP
+    params:
+            ip = '120.110.114.21'
+    return:
+            true
+                the ip is in the PA device's Objects->Address Group
+            false
+                the ip is not in the PA device's Objects->Address Group
+
+function removeIP ( entryName , ip )
+    describe:
+            remove the ip in the entryName where is in the Policies
+    params:
+           entryName    entryName = 'limit3'
+           ip           ip = '120.110.114.21'
+
+function setIP ( entryName , ip )
+    describe:
+            set ip to the entryName where is in the Policies
+    params:
+            entryName    entryName = 'limit3'
+            ip           ip = '120.110.114.21'
+
+
+
+
+
+
+Usage URL
+1.test : is address exist
+https://120.110.114.35/api/?type=config&action=show&xpath=/config/devices/entry/vsys/entry/address/
+entry[@name='120.110.114.21']&key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+
+2.remove IP
+    1.Delete
+    https://120.110.114.35/api/?type=config&action=delete&
+          xpath=/config/devices/entry/vsys/entry/address-group/entry[@name='limit3']/member[text()='120.110.114.21']&
+          key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+3.set IP
+    https://120.110.114.35/api/?type=config&action=set&
+    xpath=/config/devices/entry/vsys/entry/address-group&
+    element=<entry name='limit3'>
+            <member>120.110.114.21</member>
+            </entry>&
+    key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+
+2.set IP
+    1.select Group information from DB
+    2.Delete Group
+    https://120.110.114.35/api/?type=config&action=delete&
+    xpath=/config/devices/entry/vsys/entry/address-group/entry[@name='limit3']/member[text()='120.110.114.21']&
+    key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+    3.set IP to Group
+    https://120.110.114.35/api/?type=config&action=set&
+    xpath=/config/devices/entry/vsys/entry/address-group&
+    element=<entry name="limit3">
+            <member>120.110.114.21</member>
+            </entry>&
+    key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+    4.commit
+    https://120.110.114.35/api/?type=commit& cmd=<commit></commit> &key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
+
+
+
+set Address
+    https://120.110.114.35/api/?type=config&
+    action=set&
+    xpath=/config/devices/entry/vsys/entry/address/entry[@name='120.110.114.0.8']&
+    element=<ip-netmask>120.110.114.0/8</ip-netmask>&
+    key=LUFRPT1CS2I1a28wVk0vb2d5a1pSZDlJSTloTlNYVUU9OWVJZE5MT0lvQ3MxOFVzaFlEMUNnQT09
