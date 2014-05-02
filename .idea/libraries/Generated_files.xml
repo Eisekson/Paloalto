@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/nouse/web/paloalto2/paloalto2/paloalto2/Chart/threatChart.js" />
+        <item url="file://$PROJECT_DIR$/nouse/web/paloalto2/paloalto2/paloalto2/app.js" />
+        <item url="file://$PROJECT_DIR$/nouse/web/paloalto/paloalto/Chart/threatChart.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/nouse/web/paloalto2/paloalto2/paloalto2/app.js" />
+      <root url="file://$PROJECT_DIR$/nouse/web/paloalto2/paloalto2/paloalto2/Chart/threatChart.js" />
+      <root url="file://$PROJECT_DIR$/nouse/web/paloalto/paloalto/Chart/threatChart.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
