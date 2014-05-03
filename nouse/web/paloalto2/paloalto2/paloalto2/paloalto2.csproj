@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{C6E723AD-4DBE-460A-8035-B425CE56CA73}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="aa.html" />
+    <Content Include="app.css" />
+    <Content Include="apptoip.html" />
+    <Content Include="Chart\showchart.html" />
+    <Content Include="Chart\threatChart.html" />
+    <TypeScriptCompile Include="Chart\threatChart.ts" />
+    <Content Include="Chart\threatChart.js">
+      <DependentUpon>threatChart.ts</DependentUpon>
+    </Content>
+    <Content Include="Content\themes\base\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="default.htm" />
+    <Content Include="index.html" />
+    <Content Include="JB20131007\20130709\已匯出\error\Error\Error%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\error\Error\Error.png" />
+    <Content Include="JB20131007\20130709\已匯出\error\Error\Error訊框.png" />
+    <Content Include="JB20131007\20130709\已匯出\error\完整的畫面Error.png" />
+    <Content Include="JB20131007\20130709\已匯出\paloalto\paloalto.png" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\Register.png" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\X按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\X按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\確定按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\確定按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\register\整個畫面的樣子.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\Ican’t access my accountRegister按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\Ican’t access my accountRegister按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\Register按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\Register按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\SignIn訊框.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\確定按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\確定按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\整體的畫面樣子.png" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\sing out整個畫面的樣子.png" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\新資料夾\s_0000_圖層-136.png" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\新資料夾\X按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\新資料夾\X按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\新資料夾\確定按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\新資料夾\確定按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板%28完整的圖%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\使用者權限設定.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\使用者權限設定0.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\分析表格.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\分析表格0.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\天花板_0001_圖層-12-拷貝-2.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\帳號管理.png" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\帳號管理0.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\按鈕-整個完整樣子.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\使用者查詢網頁.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\應用程式分析.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\查詢歷史.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\白名單.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\管制政策維護.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\管制歷史資料查詢.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\管理者主畫面.png" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\網路使用分析圖.png" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\1按鈕\X按鈕%28滑鼠滑過%29.png" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\1按鈕\X按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\1按鈕\按鈕.png" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\1按鈕\按鈕0.png" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\按鈕-整個完整樣子.png" />
+    <Content Include="JB20131007\fun.js" />
+    <Content Include="JB20131007\highchart_lib\adapters\mootools-adapter.js" />
+    <Content Include="JB20131007\highchart_lib\adapters\mootools-adapter.src.js" />
+    <Content Include="JB20131007\highchart_lib\adapters\prototype-adapter.js" />
+    <Content Include="JB20131007\highchart_lib\adapters\prototype-adapter.src.js" />
+    <Content Include="JB20131007\highchart_lib\highcharts-more.js" />
+    <Content Include="JB20131007\highchart_lib\highcharts.js" />
+    <Content Include="JB20131007\highchart_lib\highcharts.src.js" />
+    <Content Include="JB20131007\highchart_lib\modules\canvas-tools.js" />
+    <Content Include="JB20131007\highchart_lib\modules\canvas-tools.src.js" />
+    <Content Include="JB20131007\highchart_lib\modules\data.js" />
+    <Content Include="JB20131007\highchart_lib\modules\data.src.js" />
+    <Content Include="JB20131007\highchart_lib\modules\exporting.js" />
+    <Content Include="JB20131007\highchart_lib\modules\exporting.src.js" />
+    <Content Include="JB20131007\highchart_lib\modules\funnel.js" />
+    <Content Include="JB20131007\highchart_lib\modules\funnel.src.js" />
+    <Content Include="JB20131007\highchart_lib\themes\dark-blue.js" />
+    <Content Include="JB20131007\highchart_lib\themes\dark-green.js" />
+    <Content Include="JB20131007\highchart_lib\themes\gray.js" />
+    <Content Include="JB20131007\highchart_lib\themes\grid.js" />
+    <Content Include="JB20131007\highchart_lib\themes\skies.js" />
+    <Content Include="JB20131007\jquery-1.9.0.min.js" />
+    <Content Include="JB20131007\main.html" />
+    <Content Include="JB20131007\按鈕.png" />
+    <Content Include="js\adapters\mootools-adapter.js" />
+    <Content Include="js\adapters\mootools-adapter.src.js" />
+    <Content Include="js\adapters\prototype-adapter.js" />
+    <Content Include="js\adapters\prototype-adapter.src.js" />
+    <Content Include="js\Changes.txt" />
+    <Content Include="js\highcharts-more.js" />
+    <Content Include="js\highcharts.js" />
+    <Content Include="js\highcharts.src.js" />
+    <Content Include="js\i18n\grid.locale-ar.js" />
+    <Content Include="js\i18n\grid.locale-bg.js" />
+    <Content Include="js\i18n\grid.locale-bg1251.js" />
+    <Content Include="js\i18n\grid.locale-cat.js" />
+    <Content Include="js\i18n\grid.locale-cn.js" />
+    <Content Include="js\i18n\grid.locale-cs.js" />
+    <Content Include="js\i18n\grid.locale-da.js" />
+    <Content Include="js\i18n\grid.locale-de.js" />
+    <Content Include="js\i18n\grid.locale-dk.js" />
+    <Content Include="js\i18n\grid.locale-el.js" />
+    <Content Include="js\i18n\grid.locale-en.js" />
+    <Content Include="js\i18n\grid.locale-es.js" />
+    <Content Include="js\i18n\grid.locale-fa.js" />
+    <Content Include="js\i18n\grid.locale-fi.js" />
+    <Content Include="js\i18n\grid.locale-fr.js" />
+    <Content Include="js\i18n\grid.locale-gl.js" />
+    <Content Include="js\i18n\grid.locale-he.js" />
+    <Content Include="js\i18n\grid.locale-hr.js" />
+    <Content Include="js\i18n\grid.locale-hr1250.js" />
+    <Content Include="js\i18n\grid.locale-hu.js" />
+    <Content Include="js\i18n\grid.locale-id.js" />
+    <Content Include="js\i18n\grid.locale-is.js" />
+    <Content Include="js\i18n\grid.locale-it.js" />
+    <Content Include="js\i18n\grid.locale-ja.js" />
+    <Content Include="js\i18n\grid.locale-kr.js" />
+    <Content Include="js\i18n\grid.locale-lt.js" />
+    <Content Include="js\i18n\grid.locale-mne.js" />
+    <Content Include="js\i18n\grid.locale-nl.js" />
+    <Content Include="js\i18n\grid.locale-no.js" />
+    <Content Include="js\i18n\grid.locale-pl.js" />
+    <Content Include="js\i18n\grid.locale-pt-br.js" />
+    <Content Include="js\i18n\grid.locale-pt.js" />
+    <Content Include="js\i18n\grid.locale-ro.js" />
+    <Content Include="js\i18n\grid.locale-ru.js" />
+    <Content Include="js\i18n\grid.locale-sk.js" />
+    <Content Include="js\i18n\grid.locale-sr-latin.js" />
+    <Content Include="js\i18n\grid.locale-sr.js" />
+    <Content Include="js\i18n\grid.locale-sv.js" />
+    <Content Include="js\i18n\grid.locale-th.js" />
+    <Content Include="js\i18n\grid.locale-tr.js" />
+    <Content Include="js\i18n\grid.locale-tw.js" />
+    <Content Include="js\i18n\grid.locale-ua.js" />
+    <Content Include="js\i18n\grid.locale-vi.js" />
+    <Content Include="js\install.txt" />
+    <Content Include="js\jquery-1.9.0.min.js" />
+    <Content Include="js\jquery.jqGrid.min.js" />
+    <Content Include="js\jquery.jqGrid.src.js" />
+    <Content Include="js\modules\canvas-tools.js" />
+    <Content Include="js\modules\canvas-tools.src.js" />
+    <Content Include="js\modules\data.js" />
+    <Content Include="js\modules\data.src.js" />
+    <Content Include="js\modules\exporting.js" />
+    <Content Include="js\modules\exporting.src.js" />
+    <Content Include="js\modules\funnel.js" />
+    <Content Include="js\modules\funnel.src.js" />
+    <Content Include="js\themes\dark-blue.js" />
+    <Content Include="js\themes\dark-green.js" />
+    <Content Include="js\themes\gray.js" />
+    <Content Include="js\themes\grid.js" />
+    <Content Include="js\themes\skies.js" />
+    <Content Include="Paloalto.html" />
+    <Content Include="JB20131007\20130709\已匯出\error\Error\Error.psd" />
+    <Content Include="JB20131007\20130709\已匯出\error\Error\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\error\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\paloalto\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\Error.psd" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\register-2.psd" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\register-3%28匯出修改過%29.psd" />
+    <Content Include="JB20131007\20130709\已匯出\register\register\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\register\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\sign in-2.psd" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\sign in.psd" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\sign in\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\sign in\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\Sign out\新資料夾\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\天花板\天花板\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\字\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\字\新增資料夾\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\1按鈕\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\2按鈕%28滑鼠滑過%29\Thumbs.db" />
+    <Content Include="JB20131007\20130709\已匯出\按鈕\Thumbs.db" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\typings\highcharts\highcharts.d.ts" />
+    <Content Include="Scripts\typings\jQuery\jquery.d.ts" />
+    <Content Include="showchart2.html" />
+    <Content Include="web.config" />
+    <Content Include="應用程式分析.html" />
+    <Content Include="管制歷史資料查詢.html" />
+    <Content Include="管制維護.html" />
+    <Content Include="網路使用分析圖.html" />
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>paloalto2</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>6633</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:6452/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://120.110.114.33:8083/</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" />
+</Project>
