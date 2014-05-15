@@ -9,6 +9,9 @@ exports.traffic = function(req,res){
 
 
 
+exports.apptoipejs = function(req,res){
+    res.render('apptoip',{});
+}
 
 
 //取得traffic 的 app流量
@@ -159,6 +162,7 @@ exports.apptoip = function(req,res){
     console.log(sql);
 
 
+    var mysql = require('mysql');
 
 
     var connection = mysql.createConnection({

@@ -1,0 +1,111 @@
+<html>
+<head>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script data-require="ng-table@*" data-semver="0.3.1"
+            src="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.js"></script>
+
+    <link data-require="ng-table@*" data-semver="0.3.1" rel="stylesheet"
+          href="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.css"/>
+    <link data-require="bootstrap-css@*" data-semver="3.0.0" rel="stylesheet"
+          href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="style.css"/>
+    <script src="script.js"></script>
+
+</head>
+<body>
+<div ng-app>
+    <div ng-controller="ctrl">
+        <label>
+            {{ a }}
+        </label>
+
+    </div>
+</div>
+<body ng-app="main" ng-controller="DemoCtrl">
+
+
+<button ng-click="tableParams.sorting({})" class="btn btn-default pull-right">Clear sorting</button>
+<p><strong>Sorting:</strong> {{tableParams.sorting()|json}}
+
+<div width="100" height="100">
+</div>
+<div>
+    <table ng-table="tableParams" class="table">
+        <tr ng-repeat="user in $data">
+            <td data-title="'Name'" sortable="'name'">
+                {{user.name}}
+            </td>
+            <td data-title="'Age'" sortable="'age'">
+                {{user.age}}
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+<script>
+    function getQuery(url, query) {
+        if (query.length == 0) {
+            return url;
+        }
+        url += '?';
+        var i;
+        for (i = 0; i < query.length - 1; i++) {
+            url += query[i].key + '=' + query[i].value + '&';
+        }
+        url += query[i].key + '=' + query[i].value;
+        return url;
+    }
+
+    var app = angular.module('main', ['ngTable']).
+            controller('DemoCtrl', function ($scope, $filter, ngTableParams, $http) {
+                var host = 'http://127.0.0.1:3000';
+                $http({
+                    method: 'get',
+                    url: getQuery(host + '/hello', [
+                        {
+                            key: 'a',
+                            value: 'hello'
+                        }
+                    ]),
+                    withCredentials: true
+                }).success(function (d) {
+                            data = d;
+
+                            $scope.tableParams = new ngTableParams({
+                                page: 1,            // show first page
+                                count: 10,          // count per page
+                                sorting: {
+                                    name: 'asc'     // initial sorting
+                                }
+                            }, {
+                                total: data.length, // length of data
+                                getData: function ($defer, params) {
+                                    // use build-in angular filter
+                                    var orderedData = params.sorting() ?
+                                            $filter('orderBy')(data, params.orderBy()) :
+                                            data;
+
+                                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                                }
+                            });
+                        }).
+                        error(function (data, status, headers, config) {
+                            alert(data);
+                        });
+
+                var data = {};
+
+            });
+    var ctrl = function ($scope) {
+        $scope.a = 100;
+    }
+</script>
+</body>
+</html>
