@@ -61,10 +61,10 @@
 <script>
     var app = angular.module('main', ['ngTable']).
                     controller('DemoCtrl', function ($scope, $filter, ngTableParams, $http) {
-                        var host = 'http://127.0.0.1:3000';
+                        var host = '/';
                         $http({
                             method: 'post',
-                            url: host + '/getpolicyrule',
+                            url: host + 'getpolicyrule',
                             data: {},
                             withCredentials: true
                         }).success(function (d) {

@@ -59,7 +59,7 @@
 
 </div>
 <script>
-    var host = 'http://127.0.0.1:3000/';
+    var host = '/';
     function getQuery(url, query) {
         if (query.length == 0) {
             return url;
@@ -89,8 +89,7 @@
         $scope.submit = function () {
             $http({
                 method: 'post',
-                url: host + 'editpolicyrulei,
-                        <script>
+                url: host + 'editpolicyrule',
                 data: {
                     target: this.target,
                     flow: this.flow,
