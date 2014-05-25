@@ -1,0 +1,119 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+</head>
+<body ng-app>
+<style>
+    .label {
+        width: 100px;
+        display: inline-table;
+    }
+
+    .field {
+
+    }
+</style>
+
+<div ng-controller="policy">
+    <legend>Policy Rule Editor</legend>
+    <div>
+        <label class="label" for="target">對象:</label>
+        <input type="field" ng-model="target" size="60%" placeholder="All or 192.168.1.1 or 192.168.1.1/24"/>
+        <br/>
+        <label class="label" for="flow">流量:</label>
+        <input type="field" ng-model="flow" size="60%" placeholder="預設無限制.  單位為 kb"/>
+        <br/>
+        <label class="label" for="session">session:</label>
+        <input type="field" ng-model="session" size="60%" placeholder="預設無限制. session量"/>
+        <br/>
+        <label class="label" for="application">應用程式:</label>
+        <input type="field" ng-model="application" size="60%" placeholder="預設無限制. EX:tcp, udp 逗號分隔多筆資料"/>
+        <br/>
+        <label class="label" for="violate">違規次數:</label>
+        <input type="field" ng-model="violate" size="60%" placeholder="" value="1"/>
+        <br/>
+        <label class="label" for="thread">威脅:</label>
+        <input type="field" ng-model="thread" size="60%" placeholder="預設無限制.  EX:low" width="auto"/>
+        <br/>
+        <label class="label" for="beginTime">起始時間:</label>
+        <input type="datetime-local" ng-model="beginTime"/>
+        <br/>
+        <label class="label" for="timeCycle">統計時間:</label>
+        <input size="60%" ng-model="timeCycle" type="field" ng-value="24"/>
+        <label for="timeCycle">小時</label>
+        <br/>
+        <input type="checkbox" ng-model="enable"/><label>Enable</label>
+        <br/>
+        <label class="label" for="reason">說明:</label>
+        <input size="60%" ng-model="reason" type="field" ng-value="24"/>
+        <br/>
+
+        <label class="label" for="action">動作:</label>
+        <input size="60%" ng-model="action" type="field" ng-value="24"/>
+        <br/>
+
+        <input type="submit" value="送出" ng-click="submit()"/>
+        <br/>
+    </div>
+
+
+</div>
+<script>
+    var host = 'http://127.0.0.1:3000/';
+    function getQuery(url, query) {
+        if (query.length == 0) {
+            return url;
+        }
+        url += '?';
+        var i;
+        for (i = 0; i < query.length - 1; i++) {
+            url += query[i].key + '=' + query[i].value + '&';
+        }
+        url += query[i].key + '=' + query[i].value;
+        return url;
+    }
+
+    var policy = function ($scope, $http) {
+
+        $scope.target = '';
+        $scope.flow = '';
+        $scope.session = '';
+        $scope.application = '';
+        $scope.violate = 1;
+        $scope.thread = '';
+        $scope.beginTime = '';
+        $scope.timeCycle = 24;
+        $scope.enable = false;
+        $scope.reason = '';
+        $scope.action = '';
+        $scope.submit = function () {
+            $http({
+                method: 'post',
+                url: host + 'editpolicyrulei,
+                        <script>
+                data: {
+                    target: this.target,
+                    flow: this.flow,
+                    session: this.session,
+                    application: this.application,
+                    violate: this.violate,
+                    thread: this.thread,
+                    beginTime: this.beginTime,
+                    timeCycle: this.timeCycle,
+                    enable: this.enable,
+                    reason:this.reason,
+                    action:this.action
+                },
+                withCredentials: true
+            }).success(function (data) {
+                        alert(data);
+                    }).
+                    error(function (data, status, headers, config) {
+                        alert(data);
+                    });
+
+        }
+    }
+</script>
+</body>
+</html>
